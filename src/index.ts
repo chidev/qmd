@@ -161,6 +161,8 @@ export interface SearchOptions {
   limit?: number;
   /** Minimum score threshold */
   minScore?: number;
+  /** Maximum candidates to rerank (default: 40) */
+  candidateLimit?: number;
   /** Include explain traces */
   explain?: boolean;
   /** Chunk strategy: "auto" (default, uses AST for code files) or "regex" (legacy) */
@@ -393,6 +395,7 @@ export async function createStore(options: StoreOptions): Promise<QMDStore> {
           collections: collections.length > 0 ? collections : undefined,
           limit: opts.limit,
           minScore: opts.minScore,
+          candidateLimit: opts.candidateLimit,
           explain: opts.explain,
           intent: opts.intent,
           skipRerank,
