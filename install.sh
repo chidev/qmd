@@ -182,6 +182,13 @@ build_repo() {
   esac
 }
 
+clean_managed_clone() {
+  if [ -d "$INSTALL_DIR/.git" ]; then
+    git -C "$INSTALL_DIR" restore bun.lock 2>/dev/null || true
+  fi
+  rm -f "$INSTALL_DIR/package-lock.json"
+}
+
 install_wrapper() {
   local wrapper_path="$BIN_DIR/$BIN_NAME"
   info "installing wrapper to $wrapper_path"
@@ -210,6 +217,7 @@ main() {
   pm="$(pick_package_manager)"
   sync_repo
   build_repo "$pm"
+  clean_managed_clone
   install_wrapper
   ensure_path_entry
   verify_install
